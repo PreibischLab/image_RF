@@ -1,0 +1,197 @@
+!!omap
+
+#################### Set directories and file names ###################
+
+- project_folder: /home/USER/image_RF/
+
+- ims_file_prefix: N2
+
+# Is there a general mask of pixels that are relevant - Takes True / False
+- is_relevance_mask: True
+
+# Run "classify"/"predict"/"both":
+- what_to_run: both
+
+# If running only predict - give classifier file name to use:
+# if not running only "predict" can leave False
+- classifier_file_name: bdos100_ntrees100_20180625-150011.pkl
+
+# If the image has channels, specify the channel number to use.
+# If no channels or if there is a mask for each channel - leave false
+# starts at zero
+- channel_num: false
+
+# Enter image unique sub-string in file name to choose images for training set:
+- training_images:
+  - N2_803
+  - N2_635
+  - N2_521
+  - N2_636
+  - N2_440
+  - N2_475
+  - N2_670
+  - N2_484
+  - N2_726
+  - N2_739
+  - N2_761
+  - N2_763
+  - N2_789
+  - N2_716
+  - N2_647
+  - N2_732
+  - N2_526
+  - N2_625
+  - N2_428
+  - N2_791
+  - N2_788
+  - N2_657
+  - N2_719
+  - N2_710
+  - N2_629
+  - N2_469
+  - N2_868
+  - N2_755
+  - N2_702
+  - N2_645
+  - N2_594
+  - N2_483
+  - N2_588
+  - N2_507
+  - N2_426
+  - N2_676
+  - N2_711
+  - N2_462
+  - N2_584
+  - N2_446
+  - N2_737
+  - N2_448
+  - N2_473
+  - N2_547
+  - N2_422
+  - N2_783
+  - N2_614
+  - N2_501
+  - N2_662
+  - N2_696
+  - N2_655
+  - N2_797
+  - N2_419
+  - N2_619
+  - N2_826
+  - N2_522
+  - N2_628
+  - N2_523
+  - N2_828
+  - N2_845
+  - N2_449
+  - N2_749
+  - N2_642
+  - N2_634
+  - N2_493
+  - N2_460
+  - N2_406
+  - N2_604
+  - N2_601
+  - N2_572
+  - N2_600
+  - N2_587
+  - N2_712
+  - N2_575
+  - N2_775
+  - N2_497
+  - N2_606
+  - N2_552
+  - N2_744
+  - N2_686
+  - N2_639
+  - N2_720
+ 
+
+########################### Image parameters ############################
+
+# Set the ratio of z resolution to x/y resolution. For 2D z_size should be 0:
+- z_size: 0.3
+
+######################### Classifier parameters #########################
+
+# Please keep in a list, even for size zero. z dim is not downsampled.
+- bigger_dim_output_size:
+  - 50
+  
+# Is it classification or regression problem?
+- is_regression: False
+
+# Is the mask in class1 labels needs to be inverted (pixel values):
+- c1_invert_values: False
+
+# Set how many trees (# of estimators) random forest will use - default 10
+- n_trees: 100
+# Set number of cores (processes) - used while training
+- n_cpu: 4
+
+# Min satisfactory prediction score of the classifier (once met, image resize is chosen):
+- min_f1_score: 0.95
+
+# Output probability map (instead of binary). if binary (127<c1), after fill holes and remove small objects
+# Must be false for multi-class!
+- output_probability_map: False
+
+######################### Features (Filters) #####################
+# Set which image filters (features) the classifier will use.
+- filters_params:
+    gauss_sigma_range:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    DoG_couples:
+    - - 1
+      - 5
+    - - 2
+      - 9
+    - - 3
+      - 12
+    - - 4
+      - 16
+    window_size_range:
+    - 3
+    - 4
+    - 5
+    - 6
+    aniso_diffus_n_iter: 20
+    aniso_diffus_conduc_coef: 50
+    aniso_diffus_gamma: 0.1
+    aniso_diffus_method: 1
+    gabor_freq:
+    - 0.05
+    - 0.1
+    - 0.15
+    - 0.2
+    - 0.25
+    gabor_theta_range:
+    - 0
+    - 1
+    - 2
+    - 3
+    frangi_scale_range:
+    - - 1
+      - 10
+    - - 2
+      - 10
+    - - 2
+      - 16
+    - - 1
+      - 20
+    entropy_radius_range:
+    - 3
+    - 4
+    - 5
+    - 6
