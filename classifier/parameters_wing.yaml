@@ -1,0 +1,163 @@
+!!omap
+
+#################### Set directories and file names ################### 
+
+- ims_folder: images
+- labels_folder: labels
+- relevance_masks_folder: False
+- output_folder: output
+- additional_ims_folder: False
+
+- ims_file_prefix: NG-SP196
+
+# Run "classify"/"predict"/"both":
+- what_to_run: both
+
+- save_classifier_add_to_name: '20trainingimgs'
+
+# If running only predict - give classifier file name to use:
+# if not running only "predict" can leave False
+- load_classifier_file_name: x
+
+# If the image has channels, specify the channel number to use.
+# If no channels or if there is a mask for each channel - leave false
+# starts at zero
+- channel_num: 0
+
+# Enter image unique sub-string in file name to choose images for training set:
+- training_images:
+  - -909-0001
+  - -909-0002
+  - -909-0024
+  - -909-0025
+  - -B03-0003
+  - -B03-0007
+  - -B03-0021
+  - -B03-0022
+  - -B03-0023
+  - -B03-0025
+  - -B03-0026
+  - -B03-0027
+  - -B03-0028
+  - -B03-0030
+  - -909-0007
+  - -909-0003
+  - -909-0008
+  - -909-0011
+  - -909-0023
+  - -B03-0043b
+
+########################### Image parameters ############################
+
+# Set the ratio of z resolution to x/y resolution. For 2D z_size should be 0:
+- z_size: 0
+
+- dim_order: False
+
+######################### Classifier parameters #########################
+
+# Please keep in a list, even for size zero. z dim is not downsampled.
+- bigger_dim_output_size:
+  - 100
+  - 200
+  - 300
+  - 400
+- downsample_by: []
+
+
+# Cascade Random forest:
+# How many random forests cascading - between 0 and 3 (0 is normal and default - one RF without cascading)
+- n_cascading: 0
+
+# Window size for shifts of the output from the last RF as a filter for the cascading random forests:
+- shift_window_size: 10
+
+# Is it classification or regression problem?
+- is_regression: False
+
+# Is the mask in class labels needs to be inverted (pixel values):
+- c1_invert_values: True
+
+# Set how many trees (# of estimators) random forest will use - default 10
+- n_trees: 100
+
+# Set number of cores (processes) - used while training
+- n_cpu: 6
+
+# Min satisfactory prediction score of the classifier (once met, image resize is chosen):
+- min_f1_score: 0.95
+
+# Output probability map (instead of binary). if binary (127<c1), after fill holes and remove small objects
+# Must be false for multi-class!
+- output_probability_map: False
+
+# Can only be true if binary and not multi-class:
+- output_fill_holes: True
+
+# Can only be set if binary and not multi-class:
+# Values: int (use 0 for false)
+# Removes objs where pixel # is smaller than:
+- output_remove_small_objs: 1700000
+
+# "Binary" output value - default is 1 (value can be left as is and won't be used for non binary output):
+- binary_output_value: 255
+
+######################### Features (Filters) #####################
+# Set which image filters (features) the classifier will use.
+- filters_params:
+    gauss_sigma_range:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    DoG_couples:
+    - - 1
+      - 5
+    - - 2
+      - 9
+    - - 3
+      - 12
+    - - 4
+      - 16
+    window_size_range:
+    - 3
+    - 4
+    - 5
+    - 6
+    aniso_diffus_n_iter: 20
+    aniso_diffus_conduc_coef: 50
+    aniso_diffus_gamma: 0.1
+    aniso_diffus_method: 1
+    gabor_freq:
+    - 0.05
+    - 0.1
+    - 0.15
+    - 0.2
+    - 0.25
+    gabor_theta_range:
+    - 0
+    - 1
+    - 2
+    - 3
+    frangi_scale_range:
+    - - 1
+      - 10
+    - - 2
+      - 10
+    - - 2
+      - 16
+    - - 1
+      - 20
+    entropy_radius_range:
+    - 3
+    - 4
+    - 5
+    - 6
